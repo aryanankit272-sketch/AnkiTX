@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>AnkitX Mini App</title>
+
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+
+<style>
+
+body{
+margin:0;
+background:#0b0714;
+color:white;
+font-family:sans-serif;
+}
+
+.header{
+text-align:center;
+padding:20px;
+font-size:26px;
+background:#140d25;
+}
+
+.card{
+background:#1b132b;
+margin:15px;
+padding:20px;
+border-radius:15px;
+}
+
+.gradient{
+background:linear-gradient(45deg,#7b2ff7,#f107a3);
+padding:15px;
+border-radius:15px;
+margin:15px;
+}
+
+button{
+background:#7b2ff7;
+border:none;
+padding:10px;
+border-radius:10px;
+color:white;
+margin:5px;
+}
+
+.tools{
+display:flex;
+gap:10px;
+}
+
+.tool{
+flex:1;
+padding:15px;
+border-radius:12px;
+text-align:center;
+cursor:pointer;
+}
+
+.google{background:#14213d;}
+.youtube{background:#3d1414;}
+.calc{background:#143d1f;}
+
+.timer{
+font-size:28px;
+text-align:center;
+}
+
+.floating{
+position:fixed;
+bottom:30px;
+right:30px;
+width:65px;
+height:65px;
+background:#7b2ff7;
+border-radius:50%;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:30px;
+cursor:pointer;
+}
+
+.menu{
+position:fixed;
+bottom:110px;
+right:30px;
+background:#1b132b;
+padding:15px;
+border-radius:15px;
+display:none;
+}
+
+.menu button{
+width:150px;
+margin:5px 0;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="header">
+AX AnkitX
+</div>
+
+<div class="gradient">
+Masterplan Course
+</div>
+
+<div class="card">
+
+<h3>Study Timer</h3>
+
+<div class="timer" id="timer">
+00:00:00
+</div>
+
+<button onclick="startTimer()">Start</button>
+<button onclick="stopTimer()">Stop</button>
+<button onclick="resetTimer()">Reset</button>
+
+</div>
+
+<div class="card">
+
+<h3>Total Study Hours</h3>
+<p id="hours">0.0 hrs</p>
+
+</div>
+
+<div class="card">
+
+<h3>Subjects Tracker</h3>
+
+<button onclick="markDone('Physics')">Physics ✔</button>
+<button onclick="markDone('Chemistry')">Chemistry ✔</button>
+<button onclick="markDone('Maths')">Maths ✔</button>
+
+</div>
+
+<div class="card">
+
+<h3>Formula Vault</h3>
+
+<button onclick="formula('kinematics')">
+Kinematics Formulas
+</button>
+
+<button onclick="formula('thermo')">
+Thermodynamics Formulas
+</button>
+
+</div>
+
+<div class="card">
+
+<h3>Quick Tools</h3>
+
+<div class="tools">
+
+<div class="tool google" onclick="google()">
+Google
+</div>
+
+<div class="tool youtube" onclick="youtube()">
+YouTube
+</div>
+
+<div class="tool calc" onclick="calc()">
+Calculator
+</div>
+
+</div>
+
+</div>
+
+<div class="card">
+
+<h3>Study Streak</h3>
+<p id="streak">0 days</p>
+
+</div>
+
+<div class="floating" onclick="toggleMenu()">
++
+</div>
+
+<div class="menu" id="menu">
+
+<button onclick="google()">Google</button>
+<button onclick="youtube()">YouTube</button>
+<button onclick="calc()">Calculator</button>
+<button onclick="ai()">AI Helper</button>
+
+</div>
+
+<script>
+
+const tg=window.Telegram.WebApp;
+tg.expand();
+
+let seconds=0;
+let timerInterval;
+
+function startTimer(){
+
+timerInterval=setInterval(()=>{
+
+seconds++;
+
+document.getElementById("timer").innerText=
+new Date(seconds*1000).toISOString().substr(11,8);
+
+},1000);
+
+}
+
+function stopTimer(){
+clearInterval(timerInterval);
+}
+
+function resetTimer(){
+
+seconds=0;
+
+document.getElementById("timer").innerText="00:00:00";
+
+}
+
+function markDone(subject){
+
+alert(subject+" completed");
+
+increaseStreak();
+
+}
+
+function increaseStreak(){
+
+let streak=document.getElementById("streak");
+
+let value=parseInt(streak.innerText);
+
+value++;
+
+streak.innerText=value+" days";
+
+}
+
+function formula(type){
+
+if(type==="kinematics"){
+
+alert("v=u+at\ns=ut+½at²\nv²=u²+2as");
+
+}
+
+if(type==="thermo"){
+
+alert("PV=nRT\nΔU=Q−W\nCp−Cv=R");
+
+}
+
+}
+
+function google(){
+window.open("https://google.com");
+}
+
+function youtube(){
+window.open("https://youtube.com");
+}
+
+function calc(){
+window.open("https://www.desmos.com/scientific");
+}
+
+function ai(){
+window.open("https://chat.openai.com");
+}
+
+function toggleMenu(){
+
+let menu=document.getElementById("menu");
+
+menu.style.display=
+menu.style.display==="block"?"none":"block";
+
+}
+
+</script>
+
+</body>
+</html>
